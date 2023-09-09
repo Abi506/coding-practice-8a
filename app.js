@@ -84,4 +84,42 @@ app.post("/todos/", async (request, response) => {
   const postDetailsArray = await data.run(postDetailsQuery);
   response.send("Todo Successfully Added");
 });
+
+//app put apit 4
+app.put("/todos/:todoId/", async (request, response) => {
+  const updateDetails = request.params;
+  const {
+    todo = undefined,
+    priority = undefined,
+    status = undefined,
+  } = request.body;
+  let updateDetailsQuery = "";
+  let updateArray = "";
+  switch (true) {
+    case status !== undefined:
+      updateDetailsQuery = `
+      UPDATE todo 
+      SET status='${status}'
+      WHERE id=${todoId} AND 
+      `;
+      updateArray = await data.run(updateDetailsQuery);
+      response.send("Status Updated");
+    case priority !== undefined:
+      updateDetailsQuery = `
+        UPDATE TODO 
+        SET priority='${priority}'
+        WHERE id=${id};        
+        `;
+      updateArray = await data.run(updateDetailsQuery);
+      response.send("Priority Updated");
+    case todo !== undefined:
+      updateDetailsQuery = `
+        UPDATE TODO 
+        SET todo='${todo}'
+        WHERE id=${id}; 
+        `;
+      updateArray = await data.run(updateDetailsQuery);
+      response.send("Todo Updated");
+  }
+});
 module.exports = app;
